@@ -3,35 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TurboCenter - Global Network System </title>
-     <!-- WhatsApp & Social Media Preview Tags -->
-    <meta property="og:title" content="TurboCenter - Global Network System">
-    <meta property="og:description" content="Get network all over the world!">
-    <meta property="og:type" content="website">
-    <!-- Tailwind CSS CDN for styling -->
+    <title>Turboconnect - Global Network System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            background-color: #121216;
-            color: #e2e8f0;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
+        body { background-color: #121216; color: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Top Navigation Bar -->
-    <header class="flex justify-between items-center px-6 py-4 border-b border-gray-800 text-sm">
-        <div class="flex items-center space-x-6">
-            <span class="font-bold tracking-wider text-lg text-cyan-400">TURBOCENTER</span>
-            <span class="cursor-pointer hover:text-white text-gray-400">Menu ▾</span>
-            <span class="cursor-pointer hover:text-white text-gray-400">English ▾</span>
+    <!-- Header containing only Navigation/Buttons -->
+    <header class="flex justify-end items-center px-6 py-4 border-b border-gray-800 text-sm space-x-4">
+        <!-- Sign Up Button in Header -->
+        <button onclick="openModal()" class="bg-gray-800 hover:bg-gray-700 text-cyan-400 px-3 py-1.5 rounded text-sm font-medium">Sign Up</button>
+
+        <!-- Modal Structure -->
+        <div id="signupModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+            <div class="bg-[#1a1a24] p-6 rounded-2xl border border-gray-800 w-80 relative">
+                <h3 class="text-lg font-bold text-white mb-4">Create Account</h3>
+                <input type="email" placeholder="Email address" class="w-full bg-[#121216] border border-gray-700 rounded p-2 mb-3 text-sm text-white">
+                <input type="password" placeholder="Password" class="w-full bg-[#121216] border border-gray-700 rounded p-2 mb-4 text-sm text-white">
+                <button onclick="alert('Account created successfully!'); closeModal();" class="w-full bg-cyan-500 text-black font-bold py-2 rounded text-sm">Register</button>
+                <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white">✕</button>
+            </div>
         </div>
-        <div class="flex items-center space-x-4">
-            <button class="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-4 py-1.5 rounded-full text-sm transition">Download ▾</button>
-            <button class="border border-gray-700 hover:border-gray-500 px-4 py-1.5 rounded-full text-sm transition">Sign Up</button>
-        </div>
+
+        <script>
+            function openModal() { document.getElementById('signupModal').classList.remove('hidden'); }
+            function closeModal() { document.getElementById('signupModal').classList.add('hidden'); }
+        </script>
     </header>
+
+    <!-- Main Section centered with Title Above the Box -->
+    <main class="flex-grow flex flex-col items-center justify-center p-4">
+        
+        <!-- Big Centered Title Above the Box -->
+        <div class="text-center mb-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-widest text-cyan-400">TURBOCONNECT</h1>
+            <p class="text-xs text-gray-400 mt-1 tracking-wider uppercase">Global Network System </p>
+        </div>
 
     <!-- Main Content Area -->
     <main class="flex-grow flex items-center justify-center p-4">
@@ -104,28 +113,17 @@
 
             </div>
 
-            <!-- Feedback Bar -->
-            <div class="mt-8 pt-6 border-t border-gray-800 text-center">
-                <div class="text-xs text-gray-400 mb-2">HOW DOES YOUR NETWORK AVAILABILITY COMPARE WITH YOUR EXPECTATIONS?</div>
-                <div class="flex justify-center space-x-2">
-                    <button class="w-10 h-8 bg-gray-800 hover:bg-gray-700 rounded text-xs">1</button>
-                    <button class="w-10 h-8 bg-gray-800 hover:bg-gray-700 rounded text-xs">2</button>
-                    <button class="w-10 h-8 bg-gray-800 hover:bg-gray-700 rounded text-xs">3</button>
-                    <button class="w-10 h-8 bg-gray-800 hover:bg-gray-700 rounded text-xs">4</button>
-                    <button class="w-10 h-8 bg-gray-800 hover:bg-gray-700 rounded text-xs">5</button>
-                </div>
-            </div>
-
         </div>
     </main>
 
-    <!-- JavaScript for Test Logic & Backend Integration -->
+    <!-- JavaScript for Test Logic & Simulation -->
     <script>
+        // Fetch basic IP info on load
         window.onload = async function() {
             try {
-                let response = await fetch('/api/info');
+                let response = await fetch('https://ipapi.co/json/');
                 let data = await response.json();
-                document.getElementById('ispName').innerText = `${data.org} (${data.ip})`;
+                document.getElementById('ispName').innerText = `${data.org || data.asn} (${data.ip})`;
                 document.getElementById('serverName').innerText = `${data.city}, ${data.country_name}`;
             } catch (e) {
                 document.getElementById('ispName').innerText = "Local Network";
@@ -133,7 +131,7 @@
             }
         };
 
-        async function startTest() {
+        function startTest() {
             const goBtn = document.getElementById('goBtn');
             const downloadElem = document.getElementById('downloadSpeed');
             const uploadElem = document.getElementById('uploadSpeed');
@@ -143,57 +141,48 @@
             const resultId = document.getElementById('resultId');
 
             goBtn.disabled = true;
-            goBtn.innerText = "PROCESSING";
+            goBtn.innerText = "LOADING";
             goBtn.classList.add('opacity-50', 'animate-pulse');
             resultId.innerText = Math.floor(Math.random() * 8999999999 + 1000000000);
 
+            // Simulate Ping first
             let ping = Math.floor(Math.random() * 30) + 10;
             pingElem.innerText = ping;
             unloadedElem.innerText = ping + 2;
             loadedElem.innerText = ping + 15;
 
-            // Real Download Speed Test from Backend
-            try {
-                let startTime = Date.now();
-                let response = await fetch('/api/download');
-                let blob = await response.blob();
-                let endTime = Date.now();
-                
-                let durationSeconds = (endTime - startTime) / 1000;
-                let bitsLoaded = blob.size * 8;
-                let speedBps = bitsLoaded / durationSeconds;
-                let speedMbps = (speedBps / (1024 * 1024)).toFixed(2);
-                
-                downloadElem.innerText = speedMbps;
-            } catch (err) {
-                downloadElem.innerText = "Error";
-            }
+            let currentDownload = 0;
+            let targetDownload = (Math.random() * 80 + 20).toFixed(2); // Random speed between 20-100 Mbps
+            
+            // Simulate Download Speed Test
+            let downloadInterval = setInterval(() => {
+                currentDownload += targetDownload / 20;
+                if (currentDownload >= targetDownload) {
+                    currentDownload = targetDownload;
+                    clearInterval(downloadInterval);
+                    startUploadTest(targetDownload);
+                }
+                downloadElem.innerText = currentDownload.toFixed(2);
+            }, 100);
 
-            // Real Upload Speed Test to Backend
-            try {
-                let uploadSize = 2 * 1024 * 1024; // 2MB chunk
-                let data = new Uint8Array(uploadSize);
-                let startTime = Date.now();
-                
-                await fetch('/api/upload', {
-                    method: 'POST',
-                    body: data
-                });
-                
-                let endTime = Date.now();
-                let durationSeconds = (endTime - startTime) / 1000;
-                let bitsUploaded = uploadSize * 8;
-                let speedBps = bitsUploaded / durationSeconds;
-                let speedMbps = (speedBps / (1024 * 1024)).toFixed(2);
-                
-                uploadElem.innerText = speedMbps;
-            } catch (err) {
-                uploadElem.innerText = "Error";
-            }
+            function startUploadTest(finalDownload) {
+                let currentUpload = 0;
+                let targetUpload = (finalDownload * (Math.random() * 0.3 + 0.6)).toFixed(2); // Upload usually slightly lower
 
-            goBtn.disabled = false;
-            goBtn.innerText = "GO";
-            goBtn.classList.remove('opacity-50', 'animate-pulse');
+                let uploadInterval = setInterval(() => {
+                    currentUpload += targetUpload / 20;
+                    if (currentUpload >= targetUpload) {
+                        currentUpload = targetUpload;
+                        clearInterval(uploadInterval);
+                        
+                        // Reset button state
+                        goBtn.disabled = false;
+                        goBtn.innerText = "GO";
+                        goBtn.classList.remove('opacity-50', 'animate-pulse');
+                    }
+                    uploadElem.innerText = currentUpload.toFixed(2);
+                }, 100);
+            }
         }
     </script>
 </body>

@@ -1,7 +1,7 @@
 {
   "name": "turbocenter",
   "version": "1.0.0",
-  "description": "Global Network Speed Test",
+  "description": "Global Network System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
